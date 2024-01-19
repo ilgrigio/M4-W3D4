@@ -1,11 +1,11 @@
-// https://jsonplaceholder.typecode.com/users
+let users = [];
 const getUsers = async () => {
   try {
     const apiRequest = await fetch(
-      "https://jsonplaceholder.typecode.com/users"
+      "https://jsonplaceholder.typicode.com/users"
     );
-    let resp = await queryUser.json();
-    console.log(resp);
+    let users = await apiRequest.json();
+    console.log(users);
   } catch (err) {
     console.error("Errore" + err);
   }
