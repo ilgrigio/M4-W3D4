@@ -10,3 +10,4 @@ const getUsers = async () => {
     console.error("Errore" + err);
   }
 };
+getUsers();
