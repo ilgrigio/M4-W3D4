@@ -1,47 +1,66 @@
-let htmlUsers = "";
+const init = () => {
+  // to do
+};
+init();
+
 let users = [];
+let tableUsers;
+
+const createTable = (usr) => {
+  return `
+    <tr>
+        <td id="${usr.id}">${usr.id}</td>
+        <td id="${usr.name}">${usr.name}</td>
+        <td id="${usr.username}">${usr.username}</td>
+        <td id="${usr.phone}">${usr.phone}</td>
+        <td id="${usr.email}">${usr.email}</td>
+    </tr>
+  `;
+};
+
 const getUsers = async () => {
   try {
     const apiRequest = await fetch(
       "https://jsonplaceholder.typicode.com/users"
     );
     users = await apiRequest.json();
-    console.log(users);
+
+    tableUsers = document.getElementById("users");
+
     users.map((usr) => {
-      console.log(usr);
-      htmlUsers += `
-      <tr>
-          <td id="${usr.id}">${usr.id}</td>
-          <td id="${usr.name}">${usr.name}</td>
-          <td id="${usr.username}">${usr.username}</td>
-          <td id="${usr.phone}">${usr.phone}</td>
-          <td id="${usr.email}">${usr.email}</td>
-      </tr>
-                  `;
-      document.getElementById("users").innerHTML = htmlUsers;
+      tableUsers.innerHTML += createTable(usr);
     });
   } catch (err) {
     console.error("Errore" + err);
   }
-  // Created function to cicling searchbar and select value
+
   const searchResult = () => {
-    const valueSearchBar = searchBar.value;
+    const valueSearchBar = searchBar.value.toLowerCase();
     const valueSelect = selectOption.value;
 
-    let filterUsers = users.filter((user) => {
-      user[valueSelect]
-        .toLowerCase()
-        .indexOf(valueSearchBar.toLowerCase().trim() !== -1);
+    // Filter users
+    const filteredUsers = users.filter((user) => {
+      return user[valueSelect].toLowerCase().includes(valueSearchBar);
+    });
 
-      // user[valueBar].indexOf();
-      console.log(user[valueSelect]);
+    // Clear the table content
+    tableUsers.innerHTML = "";
+
+    // Populate the table with filtered results
+    filteredUsers.map((usr) => {
+      tableUsers.innerHTML += createTable(usr);
     });
   };
-  // Create variable to select field
+
   const selectOption = document.getElementById("select_options");
   const searchBar = document.getElementById("searchField");
   const searchButton = document.getElementById("Search");
-  // Add event to search button
+
+  // Add event listener to search button
   searchButton.addEventListener("click", searchResult);
+
+  // Add event listener to search bar
+  searchBar.addEventListener("input", searchResult);
 };
+
 getUsers();
