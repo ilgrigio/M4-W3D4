@@ -60,7 +60,7 @@ const getUsers = async () => {
   searchButton.addEventListener("click", searchResult);
 
   // Add event listener to search bar
-  searchBar.addEventListener("input", searchResult);
+  searchBar.addEventListener("change", searchResult);
 };
 
 getUsers();
